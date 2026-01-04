@@ -266,6 +266,11 @@ bool JoystickController::handleEvent(const SEvent::SJoystickEvent &ev)
 
 		if (keys_pressed[i] && !(m_keys_down[i]))
 			m_keys_pressed[i] = true;
+		else
+			// HACK: Reset to avoid toggle actions repeating every frame.
+			// The proper fix would be to not accumulate m_keys_pressed
+			// across frames in the first place.
+			m_keys_pressed[i] = false;
 
 		m_keys_down[i] = keys_pressed[i];
 	}
